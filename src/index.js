@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const administrador = true;
+
 app.set('PORT', process.env.PORT || 4000);
 
 /*Middlewares*/
