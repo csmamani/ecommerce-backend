@@ -63,7 +63,12 @@ class ProductsService {
     return producto;
   }
 
-  deleteProduct(id) {}
+  deleteProduct(id) {
+    const found = this.getProductById(id);
+    this.productos = this.productos.filter(
+      (producto) => producto.id !== found.id
+    );
+  }
 }
 
 module.exports = ProductsService;
