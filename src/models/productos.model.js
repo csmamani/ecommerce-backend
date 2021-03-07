@@ -1,4 +1,4 @@
-export class Producto {
+class Producto {
   constructor(id, timestamp, nombre, descripcion, codigo, foto, precio, stock) {
     this.id = id;
     this.timestamp = timestamp;
@@ -10,3 +10,5 @@ export class Producto {
     this.stock = stock;
   }
 }
+
+module.exports = Producto;
