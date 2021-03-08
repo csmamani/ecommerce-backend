@@ -1,7 +1,9 @@
-export class Carrito {
-  constructor(id, timestamp, productos) {
-    this.id = id;
-    this.timestamp = timestamp;
-    this.productos = productos;
+class Carrito {
+  constructor(idCarrito) {
+    this.idCarrito = idCarrito;
+    this.timestamp = Date.now();
+    this.productos = [];
   }
 }
+
+module.exports = Carrito;
