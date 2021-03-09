@@ -1,15 +1,14 @@
 const Carrito = require('../models/carritos.model');
 const Producto = require('../models/productos.model');
+const fs = require('fs');
 
 class CarritosService {
   constructor() {
     this.carritos = [];
   }
 
-  getCartById(idCarrito) {
-    const found = this.carritos.find(
-      (carrito) => carrito.idCarrito === idCarrito
-    );
+  getCartById(id) {
+    const found = this.carritos.find((carrito) => carrito.id === id);
 
     if (!found) {
       throw new Error({ error: 'Carrito no encontrado' });
@@ -44,14 +43,26 @@ class CarritosService {
 
     carrito.productos = [...carrito.productos, nuevoProducto];
 
+    fs.writeFileSync(
+      './src/repositories/carritos.txt',
+      this.carritos ? JSON.stringify(this.carritos) : '[]',
+      'utf-8'
+    );
+
     return carrito;
   }
 
-  deleteProductFromCart(id, idProducto) {
-    const carrito = this.getCartById(id);
+  deleteProductFromCart(idCarrito, idProducto) {
+    const carrito = this.getCartById(idCarrito);
 
     carrito.productos = carrito.productos.filter(
       (producto) => producto.id !== idProducto
+    );
+
+    fs.writeFileSync(
+      './src/repositories/carritos.txt',
+      this.carritos ? JSON.stringify(this.carritos) : '[]',
+      'utf-8'
     );
 
     return carrito;
@@ -63,11 +74,17 @@ class CarritosService {
   }
 
   addCart(data) {
-    const { idCarrito } = data;
+    const { id } = data;
 
-    const nuevoCarrito = new Carrito(idCarrito);
+    const nuevoCarrito = new Carrito(id);
 
     this.carritos = [...this.carritos, nuevoCarrito];
+
+    fs.writeFileSync(
+      './src/repositories/carritos.txt',
+      JSON.stringify(this.carritos),
+      'utf-8'
+    );
   }
 }
 

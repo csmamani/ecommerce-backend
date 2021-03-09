@@ -4,26 +4,26 @@ const CarritosService = require('../services/carritos.service');
 
 const carritosService = new CarritosService();
 
-router.get('/:idCarrito', (req, res) => {
-  const { idCarrito } = req.params;
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
   try {
-    const carrito = carritosService.getCartById(idCarrito);
+    const carrito = carritosService.getCartById(id);
     res.send(carrito);
   } catch (error) {
     res.send(error);
   }
 });
 
-router.patch('/:idCarrito', (req, res) => {
-  const { idCarrito } = req.params;
+router.patch('/:id', (req, res) => {
+  const { id } = req.params;
   const data = req.body;
 
   try {
     if (!data.delete) {
-      carritosService.addProductToCart(idCarrito, data);
+      carritosService.addProductToCart(id, data);
       res.status(200).json({ message: 'Producto agregado al carrito' });
     } else {
-      carritosService.deleteProductFromCart(idCarrito, data.id);
+      carritosService.deleteProductFromCart(id, data.id);
       res.status(200).json({ message: 'Producto eliminado del carrito' });
     }
   } catch (error) {

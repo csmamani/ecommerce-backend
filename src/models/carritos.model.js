@@ -1,6 +1,6 @@
 class Carrito {
-  constructor(idCarrito) {
-    this.idCarrito = idCarrito;
+  constructor(id) {
+    this.id = id;
     this.timestamp = Date.now();
     this.productos = [];
   }
