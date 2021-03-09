@@ -1,4 +1,5 @@
 const Producto = require('../models/productos.model');
+const fs = require('fs');
 
 class ProductsService {
   constructor() {
@@ -44,6 +45,12 @@ class ProductsService {
 
     this.productos = [...this.productos, nuevoProducto];
 
+    fs.writeFileSync(
+      './src/repositories/productos.txt',
+      this.productos ? JSON.stringify(this.productos) : '[]',
+      'utf-8'
+    );
+
     return this.productos;
   }
 
@@ -60,6 +67,12 @@ class ProductsService {
 
     this.productos = Object.assign(this.productos, producto);
 
+    fs.writeFileSync(
+      './src/repositories/productos.txt',
+      this.productos ? JSON.stringify(this.productos) : '[]',
+      'utf-8'
+    );
+
     return producto;
   }
 
@@ -67,6 +80,12 @@ class ProductsService {
     const found = this.getProductById(id);
     this.productos = this.productos.filter(
       (producto) => producto.id !== found.id
+    );
+
+    fs.writeFileSync(
+      './src/repositories/productos.txt',
+      this.productos ? JSON.stringify(this.productos) : '[]',
+      'utf-8'
     );
   }
 }
