@@ -10,8 +10,8 @@ app.set('PORT', process.env.PORT || 4000);
 app.use(express.json());
 
 /*Routes*/
-app.use('/products', productsRouter);
-app.use('/carts', cartsRouter);
+app.use('/productos', productsRouter);
+app.use('/carritos', cartsRouter);
 
 /*Starting the server*/
 app.listen(app.get('PORT'), () => {
