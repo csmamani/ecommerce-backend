@@ -27,8 +27,8 @@ class CartsService {
   }
 
   addProductToCart(cartId: string, data: any) {
-    const cart = this.getCartById(cartId);
     const { nombre, descripcion, codigo, foto, precio, stock } = data;
+    let cart: Cart;
 
     const newProduct: Product = new ProductClass(
       nombre,
@@ -38,6 +38,13 @@ class CartsService {
       precio,
       stock
     );
+
+    if (!cartId) {
+      cart = new CartClass();
+      this.carts = [...this.carts, cart];
+    } else {
+      cart = this.getCartById(cartId);
+    }
 
     cart.productos = [...cart.productos, newProduct];
 
@@ -58,19 +65,9 @@ class CartsService {
     return cart;
   }
 
-  /*No fueron solicitados pero los agregue para poder hacer pruebas*/
+  /*No fue solicitado pero lo agregue para poder hacer pruebas*/
   getAllCarts() {
     return this.carts;
-  }
-
-  addCart(data: any) {
-    const { id } = data;
-
-    const newCart = new CartClass();
-
-    this.carts = [...this.carts, newCart];
-
-    saveDataToFile(this.carts);
   }
 }
 

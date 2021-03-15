@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import ProductsService from '../services/products.service';
+import permissions from '../middlewares/permissions';
 
 const productsRouter = express.Router();
 
@@ -20,23 +21,31 @@ productsRouter.get('/:id', (req: Request, res: Response) => {
   }
 });
 
-productsRouter.post('/', (req: Request, res: Response) => {
+productsRouter.post('/', permissions.isAdmin, (req: Request, res: Response) => {
   const data = req.body;
   productsService.addProduct(data);
   res.status(200).json({ message: 'Producto agregado' });
 });
 
-productsRouter.patch('/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  const data = req.body;
-  productsService.updateProduct(id, data);
-  res.status(200).json({ message: 'Producto modificado' });
-});
+productsRouter.patch(
+  '/:id',
+  permissions.isAdmin,
+  (req: Request, res: Response) => {
+    const { id } = req.params;
+    const data = req.body;
+    productsService.updateProduct(id, data);
+    res.status(200).json({ message: 'Producto modificado' });
+  }
+);
 
-productsRouter.delete('/:id', (req: Request, res: Response) => {
-  const { id } = req.params;
-  productsService.deleteProduct(id);
-  res.status(200).json({ message: 'Producto eliminado' });
-});
+productsRouter.delete(
+  '/:id',
+  permissions.isAdmin,
+  (req: Request, res: Response) => {
+    const { id } = req.params;
+    productsService.deleteProduct(id);
+    res.status(200).json({ message: 'Producto eliminado' });
+  }
+);
 
 export default productsRouter;
