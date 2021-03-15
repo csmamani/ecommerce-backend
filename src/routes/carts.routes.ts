@@ -15,33 +15,34 @@ cartsRouter.get('/:id', (req: Request, res: Response) => {
   }
 });
 
-cartsRouter.patch('/:id', (req: Request, res: Response) => {
+cartsRouter.post('/:id?', (req: Request, res: Response) => {
   const { id } = req.params;
   const data = req.body;
 
   try {
-    if (!data.delete) {
-      cartsService.addProductToCart(id, data);
-      res.status(200).json({ message: 'Producto agregado al carrito' });
-    } else {
-      cartsService.deleteProductFromCart(id, data.id);
-      res.status(200).json({ message: 'Producto eliminado del carrito' });
-    }
+    cartsService.addProductToCart(id, data);
+    return res.status(200).json({ message: 'Producto agregado al carrito' });
   } catch (error) {
-    res.send(error);
+    return res.send(error);
   }
 });
 
-/*No fueron solicitados pero los agregue para hacer pruebas */
+cartsRouter.delete('/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { id_producto } = req.body;
+
+  try {
+    cartsService.deleteProductFromCart(id, id_producto);
+    return res.status(200).json({ message: 'Producto eliminado del carrito' });
+  } catch (error) {
+    return res.send(error);
+  }
+});
+
+/*No fue solicitado pero lo agregue para hacer pruebas */
 cartsRouter.get('/', (req: Request, res: Response) => {
   const carts = cartsService.getAllCarts();
   res.send(carts);
-});
-
-cartsRouter.post('/', (req: Request, res: Response) => {
-  const data = req.body;
-  cartsService.addCart(data);
-  res.status(200).json({ message: 'Carrito agregado' });
 });
 
 export default cartsRouter;

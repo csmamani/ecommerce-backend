@@ -7,7 +7,12 @@ const permissions = {
     if (admin) {
       return next();
     } else {
-      return res.status(401).send({ error: '401 Unauthorized' });
+      return res
+        .status(401)
+        .send({
+          error: -1,
+          descripcion: `Ruta ${req.originalUrl} no autorizada`,
+        });
     }
   },
 };
